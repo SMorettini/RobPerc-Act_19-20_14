@@ -1,0 +1,7 @@
+__pycache__/
+.venv
+venv.bak/
+env/
+venv/
+*.pyc
+RP&A_data/
