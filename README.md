@@ -1,5 +1,7 @@
 # Robotics Perception & Action Project 2019-20
 
+#NEW CLEANED REPOSITORY
+
 ## Group 14 - Safety Module
 
 * Session 10/12 : Connected MEMS to RaspberryPi. Data acquisition functioning correctly.
