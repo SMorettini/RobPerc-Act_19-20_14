@@ -14,7 +14,7 @@ import sys
 arg=sys.argv[1]
 
 _SECONDS_=int(sys.argv[2])
-_PATH_FILE_="data/test_"+arg+".csv.txt"
+_PATH_FILE_="RP-A_data/test_"+arg+".csv.txt"
 _PLOT_ENABLED_=True
 _DEBUG_ENABLED_=True
 
@@ -140,7 +140,7 @@ class ADXL345:
 if __name__ == "__main__":
     # if run directly we'll just create an instance of the class and output the current readings
     adxl345 = ADXL345()
-    # Try to catch the Interrupt and close the file saving the results 
+    # Try to catch the Interrupt and close the file saving the results
     try:
         # Interval to update measures
         timeInterval = 0.05
@@ -151,8 +151,8 @@ if __name__ == "__main__":
         f = open(_PATH_FILE_, "w+")
         writer = csv.writer(f)
         writer.writerow(values.keys())
-        
-        # Loop 
+
+        # Loop
         i = 0
         seconds = _SECONDS_
         while(i < seconds/timeInterval):
@@ -196,7 +196,7 @@ if __name__ == "__main__":
         print("Exception: " + str(e))
     except SystemExit as s:
         print("Exit: " + str(s))
-    # At the end just close the file with the values and plot the values from it 
+    # At the end just close the file with the values and plot the values from it
     finally:
         f.close()
         if(_PLOT_ENABLED_):

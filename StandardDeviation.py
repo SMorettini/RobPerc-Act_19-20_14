@@ -1,5 +1,5 @@
-# importing the requests library 
-import requests 
+# importing the requests library
+import requests
 import random
 import time
 import pandas as pd
@@ -24,7 +24,7 @@ values = dict(x=0, y=0, z=0,current=0, norm=0,  roll=0, pitch=0, time=0)
 
 def calculateSTD(index, data):
     # Set initial data at first iteration
-    if((index < 20)): 
+    if((index < 20)):
         x.append(data['x'])
         y.append(data['y'])
         z.append(data['z'])
@@ -48,7 +48,7 @@ def calculateSTD(index, data):
     pitch.append(data['pitch'])
 
     # If all the initial data has been added
-    if((index >= 20)): 
+    if((index >= 20)):
         xA = np.asarray(x)
         values["x"] = np.std(xA, dtype=np.float64)
 
@@ -81,7 +81,7 @@ try:
     writer = csv.writer(f)
     writer.writerow(values.keys())
 
-    data = pd.read_csv("data/fullTest.csv.txt")
+    data = pd.read_csv("RP-A_data/fullTest.csv.txt")
     for index, row in data.iterrows():
         values = calculateSTD(index, row)
 

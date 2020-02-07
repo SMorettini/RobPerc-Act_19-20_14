@@ -45,4 +45,4 @@ def plotFromFile(path):
     frame=pd.read_table(path, delimiter=",")
     plotData(frame)
 
-#plotFromFile('data/test_softCrashChair_LowestVelocities.csv.txt')
+#plotFromFile('RP-A_data/test_softCrashChair_LowestVelocities.csv.txt')
