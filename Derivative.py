@@ -1,12 +1,9 @@
-# importing the requests library
-import requests
-import random
+# Import libraries
 import time
 import pandas as pd
-import math
-import numpy as np
 
 import csv
+from numpy import diff
 
 i = 0
 x = list()
@@ -18,12 +15,12 @@ roll = list()
 pitch = list()
 event = list()
 timeInterval = 0.05
-dimension = 20
+dimension = 2
 
 values = dict(x=0, y=0, z=0,current=0, norm=0,  roll=0, pitch=0, time=0)
 
 
-def calculateSTD(index, data, dimension):
+def calculateDerivative(index, data, timeInterval, dimension):
     # Set initial data at first iteration
     if((index < dimension)):
         x.insert(0,data['x'])
@@ -50,41 +47,35 @@ def calculateSTD(index, data, dimension):
 
     # If all the initial data has been added
     if((index >= dimension)):
-        xA = np.asarray(x)
-        values["x"] = np.std(xA, dtype=np.float64)
+        values["x"] = (x[0]-x[dimension-1])/timeInterval/(dimension-1)
 
-        yA = np.asarray(y)
-        values["y"] = np.std(yA, dtype=np.float64)
+        values["y"] = (y[0]-y[dimension-1])/timeInterval/(dimension-1)
 
-        zA = np.asarray(z)
-        values["z"] = np.std(zA, dtype=np.float64)
+        values["z"] = (z[0]-z[dimension-1])/timeInterval/(dimension-1)
 
-        normA = np.asarray(norm)
-        values["norm"] = np.std(normA, dtype=np.float64)
+        values["norm"] = (norm[0]-norm[dimension-1])/timeInterval/(dimension-1)
 
-        currentA = np.asarray(current)
-        values["current"] = np.std(currentA, dtype=np.float64)
+        values["current"] = (current[0]-current[dimension-1])/(dimension-1)
 
-        rollA = np.asarray(roll)
-        values["roll"] = np.std(rollA, dtype=np.float64)
+        values["roll"] = (roll[0]-roll[dimension-1])/timeInterval/(dimension-1)
 
-        pitchA = np.asarray(pitch)
-        values["pitch"] = np.std(pitchA, dtype=np.float64)
+        values["pitch"] = (pitch[0]-pitch[dimension-1])/timeInterval/(dimension-1)
 
-        # Set the time as the latest one
-        values["time"] = row["time"]
+        
+    # Set the time as the latest one
+    values["time"] = row["time"]
 
     return values
 
 
 try:
-    f = open("STD_test_test_HoldingAndBumpingAndCrash_RandomVelocities.csv.txt", "w+")
+    f = open("Derivative_test_test_HoldingAndBumpingAndCrash_RandomVelocities.csv.txt", "w+")
     writer = csv.writer(f)
     writer.writerow(values.keys())
 
     data = pd.read_csv("../RP-A_data/test_test_HoldingAndBumpingAndCrash_RandomVelocities.csv.txt")
     for index, row in data.iterrows():
-        values = calculateSTD(index, row, dimension)
+        values = calculateDerivative(index, row, timeInterval, dimension)
 
         writer.writerow(values.values())
 
