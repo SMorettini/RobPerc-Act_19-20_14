@@ -5,3 +5,4 @@ env/
 venv/
 *.pyc
 RP-A_data/
+.ipynb_checkpoints/

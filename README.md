@@ -55,3 +55,7 @@ python Measurement.py name_file seconds (ex: python Measurement.py test_run_1 10
 
 
 https://www.raffaelechiatto.com/modificare-permessi-di-esecuzione-di-script-in-powershell/
+
+#### To open and analyse the data DataAnalisys.ipynb
+pip install notebook
+jupyter notebook
