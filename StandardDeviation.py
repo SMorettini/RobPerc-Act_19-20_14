@@ -71,18 +71,18 @@ def calculateSTD(index, data, dimension):
         pitchA = np.asarray(pitch)
         values["pitch"] = np.std(pitchA, dtype=np.float64)
 
-        # Set the time as the latest one
-        values["time"] = row["time"]
+    # Set the time as the latest one
+    values["time"] = row["time"]
 
     return values
 
 
 try:
-    f = open("STD_test_test_HoldingAndBumpingAndCrash_RandomVelocities.csv.txt", "w+")
+    f = open("../RP-A_data/STD_MarcoRolling_RandomVelocities.csv.txt", "w+")
     writer = csv.writer(f)
     writer.writerow(values.keys())
 
-    data = pd.read_csv("../RP-A_data/test_test_HoldingAndBumpingAndCrash_RandomVelocities.csv.txt")
+    data = pd.read_csv("../RP-A_data/test_test_MarcoRolling_RandomVelocities.csv.txt")
     for index, row in data.iterrows():
         values = calculateSTD(index, row, dimension)
 

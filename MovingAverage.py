@@ -18,7 +18,7 @@ roll = list()
 pitch = list()
 event = list()
 timeInterval = 0.05
-dimension = 20
+dimension = 5
 
 values = dict(x=0, y=0, z=0,current=0, norm=0,  roll=0, pitch=0, time=0)
 
@@ -71,18 +71,18 @@ def calculateMA(index, data, dimension):
         pitchA = np.asarray(pitch)
         values["pitch"] = np.ma.average(pitchA)
 
-        # Set the time as the latest one
-        values["time"] = row["time"]
+    # Set the time as the latest one
+    values["time"] = row["time"]
 
     return values
 
 
 try:
-    f = open("MA_test_test_HoldingAndBumpingAndCrash_RandomVelocities.csv.txt", "w+")
+    f = open("../RP-A_data/MA_MarcoRolling_RandomVelocities.csv.txt", "w+")
     writer = csv.writer(f)
     writer.writerow(values.keys())
 
-    data = pd.read_csv("../RP-A_data/test_test_HoldingAndBumpingAndCrash_RandomVelocities.csv.txt")
+    data = pd.read_csv("../RP-A_data/test_test_MarcoRolling_RandomVelocities.csv.txt")
     for index, row in data.iterrows():
         values = calculateMA(index, row, dimension)
 
