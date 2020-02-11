@@ -12,7 +12,7 @@
 	* Implement threshold solution
 
 * Session 11/12:
-	* Added Threshold and data in the softwre
+	* Added Threshold and data in the software
 	* Prepared the Arduino
 
 * Session 12/12 :  
@@ -41,7 +41,7 @@ Activate environment:
 Install dependencies
 `pip install -r ./requirements.txt`
 
-###IMPORTANT INFO
+### IMPORTANT INFO
 
 Rememeber to
 
@@ -49,7 +49,7 @@ git clone https://github.com/MesSem/RP-A_data.git
 
 and to commit and push inside the folder RP-A_data
 
-###Run Script to collect Data
+### Run Script to collect Data
 
 python Measurement.py name_file seconds (ex: python Measurement.py test_run_1 10)
 
