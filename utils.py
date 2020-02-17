@@ -105,7 +105,6 @@ class Utils(object):
         end=self.calculateMA(self.dimDer-1)
         # If all the initial data has been added
         if((len(self.x) >= self.dimDer)):
-
             values["Der_x"] = (start["x"]-end["x"])/self.timeInterval/(self.dimDer-1)
 
             values["Der_y"] = (start["y"]-end["y"])/self.timeInterval/(self.dimDer-1)

@@ -9,6 +9,7 @@ from digital_acquisition import read_current
 from plot import plotFromFile
 #import keyboard
 
+from utils import Utils
 
 import sys
 arg=sys.argv[1]
@@ -144,12 +145,18 @@ if __name__ == "__main__":
     try:
         # Interval to update measures
         timeInterval = 0.05
-        # Dictionary used to store the information of the measures
-        values = dict(x=0, y=0, z=0, norm=0, current=0, roll=0, pitch=0, time=0, event='Still')
+        dimDer = 2
+        dimStd = 20
+        dimFilter = 5
+        utils = Utils(dimStd, dimDer, dimFilter, timeInterval)
 
         # Open File and write the head
         f = open(_PATH_FILE_, "w+")
         writer = csv.writer(f)
+
+        # Dictionary used to store the information of the measures
+        values = dict(x=0.0, y=0.0, z=0.0, norm=0.0, current=0.0, roll=0.0, pitch=0.0, time=0.0, event='Still', Std_x=0.0, Std_y=0.0, Std_z=0.0, Std_norm=0.0, Std_current=0.0, Std_roll=0.0, Std_pitch=0.0, Der_x=0.0, Der_y=0.0, Der_z=0.0, Der_norm=0.0, Der_current=0.0, Der_roll=0.0, Der_pitch=0.0)
+
         writer.writerow(values.keys())
 
         # Loop
@@ -158,6 +165,8 @@ if __name__ == "__main__":
         while(i < seconds/timeInterval):
             # Save the time of the measurement
             values["time"] = datetime.now()
+            # Get the value of the event using the keyboard hotkeys
+            values['event'] = event
             # Get the values of the axis from the accellerometer
             axes = adxl345.getAxes(True)
             values['x'] = axes['x']
@@ -170,8 +179,12 @@ if __name__ == "__main__":
             values['norm'] = math.sqrt((values['x'] * values['x']) + (values['y'] * values['y']) + (values['z'] * values['z']))
             values['roll'] = math.atan2(values['y'], values['z']) * 180 / math.pi
             values['pitch'] = math.atan2(-1*values['x'], math.sqrt(values['y']*values['y']+values['z']*values['z'])) * 180 / math.pi
-            # Get the value of the event using the keyboard hotkeys
-            values['event'] = event
+            
+            # Generate additional information about the measures
+            utils.updateData(values)
+            values.update(utils.calculateSTD())
+            values.update(utils.calculateDerivative())
+
             # Save the information on the file
             writer.writerow(values.values())
             # Print the result for Debug
