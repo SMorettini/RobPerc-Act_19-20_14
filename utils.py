@@ -1,6 +1,21 @@
 import pandas as pd
 import numpy as np
 
+def Sum(fileName):
+    frame=pd.read_table("out/"+fileName+".csv", delimiter=",")
+
+    frame["N_value+std+drv"] = frame["norm"] + frame["Std_norm"] + frame["Der_norm"]
+    frame["N_value+std"] = frame["norm"] + frame["Std_norm"]
+    frame["N_value+drv"] = frame["norm"] + frame["Der_norm"]
+    frame["N_std+drv"] = frame["Std_norm"] + frame["Der_norm"]
+
+    frame["C_value+std+drv"] = frame["current"] + frame["Std_current"] + frame["Der_current"]
+    frame["C_value+std"] = frame["current"] + frame["Std_current"]
+    frame["C_value+drv"] = frame["current"] + frame["Der_current"]
+    frame["C_std+drv"] = frame["Std_current"] + frame["Der_current"]
+
+    frame.to_csv("out/Sum_"+fileName+".csv")
+
 class Utils(object):
 
     dimStd=0
