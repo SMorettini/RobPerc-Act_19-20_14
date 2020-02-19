@@ -10,6 +10,7 @@ from plot import plotFromFile
 #import keyboard
 
 from utils import Utils
+from safetySM import StateMachineSM
 
 import sys
 arg=sys.argv[1]
@@ -149,6 +150,8 @@ if __name__ == "__main__":
         dimStd = 20
         dimFilter = 5
         utils = Utils(dimStd, dimDer, dimFilter, timeInterval)
+        m = StateMachineSM()
+
 
         # Open File and write the head
         f = open(_PATH_FILE_, "w+")
@@ -179,11 +182,13 @@ if __name__ == "__main__":
             values['norm'] = math.sqrt((values['x'] * values['x']) + (values['y'] * values['y']) + (values['z'] * values['z']))
             values['roll'] = math.atan2(values['y'], values['z']) * 180 / math.pi
             values['pitch'] = math.atan2(-1*values['x'], math.sqrt(values['y']*values['y']+values['z']*values['z'])) * 180 / math.pi
-            
+
             # Generate additional information about the measures
             utils.updateData(values)
             values.update(utils.calculateSTD())
             values.update(utils.calculateDerivative())
+
+            m.runOneStep(values)
 
             # Save the information on the file
             writer.writerow(values.values())
