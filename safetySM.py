@@ -44,9 +44,9 @@ class StateMachineSM:
         return newState
 
     def moving_state_transitions(self, data):
-        if self.conditionOr(">",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.1,1.1,8,35]):
+        if self.conditionOr(">",data, ["Std_norm","Der_norm"], [0.1,1.1]):
             newState = "Crash_state"
-        elif self.conditionOr(">",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.1,0.5,10,30]):
+        elif self.conditionOr(">",data, ["Std_current","Der_current"], [10,30]):
             newState = "Holding_state"
         elif self.conditionOr(">",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.1,0.5,4,20]):
             newState = "Bumping_state"

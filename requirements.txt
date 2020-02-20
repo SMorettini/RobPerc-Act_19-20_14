@@ -1,3 +1,5 @@
 plotly
 chart_studio
 pandas
+smbus
+RPi.GPIO

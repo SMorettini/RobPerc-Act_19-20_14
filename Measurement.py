@@ -18,7 +18,7 @@ arg=sys.argv[1]
 _SECONDS_=int(sys.argv[2])
 _PATH_FILE_="RP-A_data/test_"+arg+".csv.txt"
 _PLOT_ENABLED_=True
-_DEBUG_ENABLED_=True
+_DEBUG_ENABLED_=False
 
 
 
