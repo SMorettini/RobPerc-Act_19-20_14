@@ -83,7 +83,7 @@ class ADXL345:
 
     def __init__(self, address=0x53):
         self.address = address
-        self.setBandwidthRate(BW_RATE_25HZ)
+        self.setBandwidthRate(BW_RATE_400HZ)
         self.setRange(RANGE_4G)
         self.enableMeasurement()
 
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     # Try to catch the Interrupt and close the file saving the results
     try:
         # Interval to update measures
-        timeInterval = 0.05
+        timeInterval = 0.020
         dimDer = 2
         dimStd = 20
         dimFilter = 5
@@ -188,7 +188,19 @@ if __name__ == "__main__":
             values.update(utils.calculateSTD())
             values.update(utils.calculateDerivative())
 
-            m.runOneStep(values)
+            state=m.runOneStep(values)
+            if(state=="Still_state"):
+                values["event"]=10
+            elif(state=="Moving_state"):
+                values["event"]=20
+            elif(state=="Bumping_state"):
+                values["event"]=30
+            elif(state=="Holding_state"):
+                values["event"]=40
+            elif(state=="Crash_state"):
+                values["event"]=50
+            
+
 
             # Save the information on the file
             writer.writerow(values.values())

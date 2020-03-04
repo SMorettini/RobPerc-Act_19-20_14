@@ -30,3 +30,4 @@ class StateMachine:
         else:
             print("State: ", newState)
             self.handler = self.handlers[newState.upper()]
+        return newState

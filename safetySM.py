@@ -37,25 +37,26 @@ class StateMachineSM:
 
     def still_state_transitions(self, data):
         #if data["Std_norm"] >0.01 or abs(data["Der_norm"])>0.04 or data["Std_current"] >1 or abs(data["Der_current"])>10:
-        if self.conditionOr(">",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.01,0.04,1,10]):
+        #if self.conditionAnd(">",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.01,0.04,1,10]):
+        if self.conditionAnd(">",data, ["Std_norm","Std_current"], [0.01,1]):
             newState = "Moving_state"
         else:
             newState = "Still_state"
         return newState
 
     def moving_state_transitions(self, data):
-        if self.conditionOr(">",data, ["Std_norm","Der_norm"], [0.1,1.1]):
+        if self.conditionOr(">",data, ["Std_norm","Der_norm"], [0.5,1.5]):
             newState = "Crash_state"
-        elif self.conditionOr(">",data, ["Std_current","Der_current"], [10,30]):
-            newState = "Holding_state"
-        elif self.conditionOr(">",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.1,0.5,4,20]):
-            newState = "Bumping_state"
-        elif self.conditionOr("<",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.01,0.04,1,10]):
+        #elif self.conditionAnd(">",data, ["Std_current","Der_current"], [20,30]):
+        #    newState = "Holding_state"
+        #elif self.conditionAnd(">",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.1,0.5,4,20]):
+        #    newState = "Bumping_state"
+        elif self.conditionAnd("<",data, ["Std_norm","Std_current"], [0.01,1]):
             newState = "Still_state"
         else:
             newState = "Moving_state"
         return newState
-
+    
     def bumping_state_transitions(self, data):
         if self.conditionOr("<",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.1,0.5,4,20]):
             newState = "Moving_state"
@@ -66,14 +67,14 @@ class StateMachineSM:
         return newState
 
     def holding_state_transitions(self, data):
-        if self.conditionOr("<",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.1,0.5,10,30]):
+        if self.conditionAnd("<",data, ["Std_current","Der_current"], [20,30]):
             newState = "Moving_state"
         elif self.conditionOr("<",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.01,0.04,1,10]):
             newState = "Still_state"
         else:
             newState = "Holding_state"
         return newState
-
+    
     def crash_state_transitions(self, data):
         if self.conditionOr("<",data, ["Std_norm","Der_norm","Std_current","Der_current"], [0.01,0.04,1,10]):
             newState = "Still_state"
@@ -82,7 +83,7 @@ class StateMachineSM:
         return newState
 
     def runOneStep(self,data):
-        self.m.runOneStep(data)
+        return self.m.runOneStep(data)
 
 
 if __name__== "__main__":

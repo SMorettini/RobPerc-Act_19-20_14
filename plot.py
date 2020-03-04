@@ -10,16 +10,16 @@ def plotData(data, message='Data', s=None, e=None):
 
     for key in data.columns.values:
         if(key!="time"):
-            if(key!="event"):
-                if(key=="current"):
-                    dataG.append(go.Scatter(y=data[key][s:e],
-                                    x=data["time"][s:e],
-                                    yaxis='y2',
-                                    name=key))
-                else:
-                    dataG.append(go.Scatter(y=data[key][s:e],
-                                    x=data["time"][s:e],
-                                    name=key))
+            #if(key!="event"):
+            if(key=="current"):
+                dataG.append(go.Scatter(y=data[key][s:e],
+                                x=data["time"][s:e],
+                                yaxis='y2',
+                                name=key))
+            else:
+                dataG.append(go.Scatter(y=data[key][s:e],
+                                x=data["time"][s:e],
+                                name=key))
 
     layout = dict(
         title=message,
