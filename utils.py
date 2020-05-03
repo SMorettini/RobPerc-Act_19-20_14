@@ -14,6 +14,8 @@ def Sum(fileName):
     frame["C_value+drv"] = frame["current"] + frame["Der_current"]
     frame["C_std+drv"] = frame["Std_current"] + frame["Der_current"]
 
+    frame["T_std*drv"] = frame["Test_current"] * frame["Test_norm"]
+
     frame.to_csv("out/Sum_"+fileName+".csv")
 
 class Utils(object):
