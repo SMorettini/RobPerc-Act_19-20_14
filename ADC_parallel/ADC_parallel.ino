@@ -85,7 +85,7 @@ void loop ()
     Serial.println(bitRead(val,9)); 
   }
   
-  delay(50);
+  delay(20);
   i+=1;
   
 }

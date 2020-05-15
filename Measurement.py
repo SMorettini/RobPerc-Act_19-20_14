@@ -83,7 +83,7 @@ class ADXL345:
 
     def __init__(self, address=0x53):
         self.address = address
-        self.setBandwidthRate(BW_RATE_400HZ)
+        self.setBandwidthRate(BW_RATE_50HZ)
         self.setRange(RANGE_4G)
         self.enableMeasurement()
 
@@ -147,8 +147,8 @@ if __name__ == "__main__":
         # Interval to update measures
         timeInterval = 0.020
         dimDer = 2
-        dimStd = 20
-        dimFilter = 5
+        dimStd = 10
+        dimFilter = 10
         utils = Utils(dimStd, dimDer, dimFilter, timeInterval)
         m = StateMachineSM()
 
@@ -158,7 +158,7 @@ if __name__ == "__main__":
         writer = csv.writer(f)
 
         # Dictionary used to store the information of the measures
-        values = dict(x=0.0, y=0.0, z=0.0, norm=0.0, current=0.0, roll=0.0, pitch=0.0, time=0.0, event='Still', Std_x=0.0, Std_y=0.0, Std_z=0.0, Std_norm=0.0, Std_current=0.0, Std_roll=0.0, Std_pitch=0.0, Der_x=0.0, Der_y=0.0, Der_z=0.0, Der_norm=0.0, Der_current=0.0, Der_roll=0.0, Der_pitch=0.0)
+        values = dict(x=0.0, y=0.0, z=0.0, norm=0.0, current=0.0, roll=0.0, pitch=0.0, time=0.0, event='Still', Std_x=0.0, Std_y=0.0, Std_z=0.0, Std_norm=0.0, Std_current=0.0, Std_roll=0.0, Std_pitch=0.0, Der_x=0.0, Der_y=0.0, Der_z=0.0, Der_norm=0.0, Der_current=0.0, Der_roll=0.0, Der_pitch=0.0, normOut=0.0, currentOut=0.0)
 
         writer.writerow(values.keys())
 
@@ -184,9 +184,20 @@ if __name__ == "__main__":
             values['pitch'] = math.atan2(-1*values['x'], math.sqrt(values['y']*values['y']+values['z']*values['z'])) * 180 / math.pi
 
             # Generate additional information about the measures
+            stdV = utils.calculateSTD()
+            derV = utils.calculateDerivative()
+            maV = utils.calculateMA(0)
+            if(len(stdV)):
+                normOut = ((values["norm"] - maV["norm"])/stdV["Std_norm"]) ** 2
+            if(len(stdV)):
+                currentOut = ((values["current"] - maV["current"])/stdV["Std_current"]) ** 2
+
+            # Update the values
             utils.updateData(values)
-            values.update(utils.calculateSTD())
-            values.update(utils.calculateDerivative())
+            values.update(stdV)
+            values.update(derV)
+            values['normOut'] = normOut
+            values['currentOut'] = currentOut
 
             state=m.runOneStep(values)
             if(state=="Still_state"):
@@ -199,7 +210,6 @@ if __name__ == "__main__":
                 values["event"]=40
             elif(state=="Crash_state"):
                 values["event"]=50
-            
 
 
             # Save the information on the file
