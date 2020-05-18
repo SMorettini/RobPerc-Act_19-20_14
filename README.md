@@ -48,9 +48,7 @@ Rememeber to
 ```
 git clone https://github.com/MesSem/RP-A_data.git
 ```
-and to commit and push inside the folder RP-A_data
-
-for store new data and save on Github.
+and to commit and push inside the folder RP-A_data for store new data and save on Github.
 
 ### Open and analyse the data DataAnalisys.ipynb (it's in RP-A_data.git)
 ```
