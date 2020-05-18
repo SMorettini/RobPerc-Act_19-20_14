@@ -1,4 +1,7 @@
 class StateMachine:
+    '''
+    Base class for the State machine.
+    '''
     def __init__(self):
         self.handlers = {}
         self.startState = None
@@ -20,13 +23,10 @@ class StateMachine:
                 self.handler = self.handlers[self.startState]
             except:
                 raise InitializationError("must call .set_start() before .run()")
-            #if not self.endStates:
-            #    raise  InitializationError("at least one state must be an end_state")
 
         newState= self.handler(cargo)
         if newState.upper() in self.endStates:
             print("reached end state", newState)
-            #break
         else:
             print("State: ", newState)
             self.handler = self.handlers[newState.upper()]

@@ -4,6 +4,7 @@ import plotly.graph_objs as go
 
 import pandas as pd
 
+'''Method to plot data on plotly. Used for debuggin and testing the module'''
 def plotData(data, message='Data', s=None, e=None):
     print("Plotting")
     dataG= []

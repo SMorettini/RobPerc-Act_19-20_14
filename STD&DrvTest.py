@@ -1,5 +1,9 @@
-# importing the requests library 
-import requests 
+'''
+Script used for testing standard deviation and derivative
+'''
+
+# importing the requests library
+import requests
 import random
 import time
 import pandas as pd
@@ -39,7 +43,7 @@ for index, row in data.iterrows():
     values.update(row)
     values.update(utils.calculateSTD())
     values.update(utils.calculateDerivative())
-    
+
     writer.writerow(values.values())
 
 

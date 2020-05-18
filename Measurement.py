@@ -21,8 +21,6 @@ _PLOT_ENABLED_=True
 _DEBUG_ENABLED_=False
 
 
-
-
 # Set the Hotkeys to get the event from the Keyboard
 global event
 event = "Still"
@@ -78,7 +76,9 @@ AXES_DATA = 0x32
 
 
 class ADXL345:
-
+    '''
+    Class for acquisition of accelerometer signals.
+    '''
     address = None
 
     def __init__(self, address=0x53):
@@ -138,7 +138,7 @@ class ADXL345:
 
         return {"x": x, "y": y, "z": z}
 
-#TODO:: If while(true) is used, after a while it crash
+#Main script
 if __name__ == "__main__":
     # if run directly we'll just create an instance of the class and output the current readings
     adxl345 = ADXL345()
@@ -146,6 +146,7 @@ if __name__ == "__main__":
     try:
         # Interval to update measures
         timeInterval = 0.020
+
         dimDer = 2
         dimStd = 10
         dimFilter = 10
@@ -200,6 +201,8 @@ if __name__ == "__main__":
             values['currentOut'] = currentOut
 
             state=m.runOneStep(values)
+
+            ##Using to have nice plot for testing
             if(state=="Still_state"):
                 values["event"]=10
             elif(state=="Moving_state"):

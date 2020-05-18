@@ -1,3 +1,11 @@
+'''
+This file contains a working variant of Measurement.py for storing the data on a web server
+in real time.
+
+It needs to be updated with the state machine and the new features evaluated using utils.py.
+Now for the detection of the state only a simple threshold method is used.
+'''
+
 import smbus
 from time import sleep,time
 import csv
@@ -123,7 +131,7 @@ if __name__ == "__main__":
             axes['pitch'] = math.atan2(-1*axes['x'], math.sqrt(axes['y']*axes['y']+axes['z']*axes['z'])) * 180 / math.pi
 
             # Set initial data at first iteration
-            if(i==0): 
+            if(i==0):
                 x = axes['x']
                 y = axes['y']
                 z = axes['z']
@@ -141,7 +149,7 @@ if __name__ == "__main__":
             Vx = Vx + timeInterval * x
             Vy = Vy + timeInterval * y
             Vz = Vz + timeInterval * z
-        
+
 
             # Check for the event [TODO] take into account also roll, pitch, mean, std, ...
             axes["event"] = 0#"WOW"
@@ -157,7 +165,7 @@ if __name__ == "__main__":
             # Print to csv
             writer.writerow(axes.values())
 
-            # api-endpoint 
+            # api-endpoint
             if(i % 50 == 0):
                 date = time.time()
                 URL = "https://emoncms.org/input/post?node=1&time=" + str(date) +"&csv=" + "x:"+str(x) + "," + "y:"+str(y) + "," + "z:"+str(axes["z"]) + "," + "norm:"+str(axes["norm"]) + "," + "roll:"+str(axes["roll"]) + "," + "pitch:"+str(axes["pitch"]) + "," + "event:"+str(axes["event"].split(":")[-1]) + "&apikey=" + apikey
@@ -175,4 +183,3 @@ if __name__ == "__main__":
         print("Exception: " + str(e))
     finally:
         f.close()
-

@@ -8,7 +8,15 @@ def Mul(fileName):
 
     frame.to_csv("out/Mul_"+fileName+".csv")
 
+
 class Utils(object):
+    '''
+    This class contains method to process the data and extract usefull features.
+    Teh features created use ont a single instant data but multiple data(for example,
+    we choose to evaluate the standard deviation using the data collected in the
+    last dimStd timestamps, where dimSTD is assigned in the constructor)
+    so we need to store temporarly some of the data received from the sensors.
+    '''
 
     dimStd=0
     dimDer=0
@@ -16,6 +24,7 @@ class Utils(object):
     dim=0
     timeInterval=0
 
+    #All the list that contains a range of data, they will have different lenght
     x = list()
     y = list()
     z = list()
@@ -24,6 +33,8 @@ class Utils(object):
     roll = list()
     pitch = list()
 
+    '''Constructor. Ther parameter specified how much data we store temporarly for
+    each type of variable'''
     def __init__(self, dimStd, dimDer, dimFilter, timeInterval):
         self.dimStd=dimStd
         self.dimDer=dimDer
@@ -40,6 +51,7 @@ class Utils(object):
         self.pitch = list()
         return
 
+    '''This method update the list to temporarly store the data'''
     def updateData(self, data):
         # Set initial data at first iteration
         if((len(self.x) < self.dim)):
@@ -65,6 +77,7 @@ class Utils(object):
         self.pitch.pop()
         self.pitch.insert(0,data['pitch'])
 
+    '''Method to evaluate the standard deviation'''
     def calculateSTD(self):
         values=dict()
         # If all the initial data has been added
@@ -91,8 +104,10 @@ class Utils(object):
             values["Std_pitch"] = np.std(pitchA, dtype=np.float64)
         return values
 
+    '''Method to evaluate the derivation'''
     def calculateDerivative(self):
         values=dict()
+        #We use the moving average as a filter to remove the noisy before evaluate the derivative
         start=self.calculateMA(0)
         end=self.calculateMA(self.dimDer-1)
         # If all the initial data has been added
@@ -113,6 +128,7 @@ class Utils(object):
 
         return values
 
+    '''Method to evaluate the moving average, used as a filter'''
     def calculateMA(self, index):
         values = dict(x=0, y=0, z=0,current=0, norm=0,  roll=0, pitch=0)
         # If all the initial data has been added

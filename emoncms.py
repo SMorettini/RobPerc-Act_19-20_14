@@ -1,5 +1,5 @@
-# importing the requests library 
-import requests 
+'''Script used to test the upload of the data on emocms, a web service for storing and visualizing data in a dashboard'''
+import requests
 import random
 import time
 import pandas as pd
@@ -16,8 +16,8 @@ for index, row in data.iterrows():
     date = time.time()
     URL = "https://emoncms.org/input/post?node=1&time=" + str(date) +"&csv=" + "x:"+str(row["x"]) + "," + "y:"+str(row["y"]) + "," + "z:"+str(row["z"]) + "," + "norm:"+str(row["norm"]) + "," + "roll:"+str(row["roll"]) + "," + "pitch:"+str(row["pitch"]) + "," + "event:"+str(row["event"].split(":")[-1]) + "&apikey=" + apikey
     print(str(date) + " "+str(row["event"].split(":")[-1]))
-    # sending get request and saving the response as response object 
-    r = requests.get(url = URL) 
+    # sending get request and saving the response as response object
+    r = requests.get(url = URL)
 
     time.sleep(5)
 
@@ -41,7 +41,7 @@ Vz = 0
 data = pd.read_csv("crash.csv")
 for index, row in data.iterrows():
     # Set initial data at first iteration
-    if((index == 0) or ((index-1) % 10 == 0)): 
+    if((index == 0) or ((index-1) % 10 == 0)):
         x = row['x']
         y = row['y']
         z = row['z']
@@ -60,9 +60,9 @@ for index, row in data.iterrows():
     Vx = Vx + timeInterval * x
     Vy = Vy + timeInterval * y
     Vz = Vz + timeInterval * z
-        
 
-    
+
+
     # Check for the event [TODO] take into account also roll, pitch, mean, std, ...
     event = 0#"WOW"
     if(1.2 <= norm <= 1.8):
@@ -75,17 +75,17 @@ for index, row in data.iterrows():
         event = 0#"Machine Learning detected: Mars"
 
 
-    # api-endpoint 
+    # api-endpoint
     if(index % 10 == 0):
         date = time.time()
-        
+
         Vel = math.sqrt(Vx*Vx + Vy*Vy + Vz*Vz)
         print(Vel)
 
         URL = "https://emoncms.org/input/post?node=1&time=" + str(date) +"&csv=" + "x:"+str(x) + "," + "y:"+str(y) + "," + "z:"+str(row["z"]) + "," + "norm:"+str(row["norm"]) + "," + "roll:"+str(row["roll"]) + "," + "pitch:"+str(row["pitch"]) + "," + "event:"+str(row["event"].split(":")[-1]) + ",vel:" +str(Vel) + ",vx:" +str(Vx) + ",vy:" +str(Vy) + ",vz:" +str(Vz) + "&apikey=" + apikey
 
-        # sending get request and saving the response as response object 
-        r = requests.get(url = URL) 
+        # sending get request and saving the response as response object
+        r = requests.get(url = URL)
 
     # Wait and update index
     time.sleep(timeInterval)

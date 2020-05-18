@@ -1,3 +1,5 @@
+//Arduino code for acquire the analog signal from the current sensor and convert it in a digital signal
+
 int analogPin  = A0 ; //input pin (current measure)
 
 int pin0 = 2; //output pins
@@ -19,7 +21,7 @@ int val = 0 ;
 void setup ()
 {
   Serial.begin(9600); //check bitrate in function of desired measure frequency
-  pinMode(pin0,OUTPUT);  
+  pinMode(pin0,OUTPUT);
   pinMode(pin1,OUTPUT);
   pinMode(pin2,OUTPUT);
   pinMode(pin3,OUTPUT);
@@ -29,14 +31,14 @@ void setup ()
   pinMode(pin7,OUTPUT);
   pinMode(pin8,OUTPUT);
   pinMode(pin9,OUTPUT);
- 
+
 }
 
 int i=0;
-float mapfloat(float x, float in_min, float in_max, float out_min, float out_max)
-{
-  return (float)(x-in_min)*(out_max-out_min)/(in_max-in_min)+out_min;
-}
+//float mapfloat(float x, float in_min, float in_max, float out_min, float out_max)
+//{
+//  return (float)(x-in_min)*(out_max-out_min)/(in_max-in_min)+out_min;
+//}
 
 void loop ()
 {
@@ -47,9 +49,9 @@ void loop ()
   float voltage= val * (5.0 / 1023.0);
   //val=mapfloat(val, 0, 1023, 0, 5);
   Serial.println(String(voltage)+" V");
-  
+
   Serial.println(String(voltage-offset)+" V OffSetted");
-  
+
   //Sensitivity of the sensor: 625 mV/Ipn. Ipn = 50A, so the slope is 12.5 mV/A
   float current = (voltage-offset)/0.0125;
   Serial.println(String(current)+"A");
@@ -82,10 +84,10 @@ void loop ()
     Serial.println(bitRead(val,6));
     Serial.println(bitRead(val,7));
     Serial.println(bitRead(val,8));
-    Serial.println(bitRead(val,9)); 
+    Serial.println(bitRead(val,9));
   }
-  
+
   delay(20);
   i+=1;
-  
+
 }

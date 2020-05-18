@@ -1,5 +1,7 @@
-# importing the requests library 
-import requests 
+'''Script used to test the upload of the data on emocms, a web service for storing and visualizing data in a dashboard'''
+
+# importing the requests library
+import requests
 import random
 import time
 import pandas as pd
@@ -20,7 +22,7 @@ timeInterval = 0.05
 data = pd.read_csv("crash.csv")
 for index, row in data.iterrows():
     # Set initial data at first iteration
-    if((index < 100)): 
+    if((index < 100)):
         x.append(row['x'])
         y.append(row['y'])
         z.append(row['z'])
@@ -40,10 +42,10 @@ for index, row in data.iterrows():
     pitch.pop()
     pitch.append(row['pitch'])
 
-    # api-endpoint 
+    # api-endpoint
     if(index % 100 == 0):
         timestamp = time.time() -2.5
-        
+
         print(timestamp)
 
         normA = np.asarray(norm)
@@ -66,8 +68,8 @@ for index, row in data.iterrows():
 
         URL = "https://emoncms.org/input/post?node=2&time=" + str(timestamp) +"&csv=" + "x:"+str(xV) + "," + "y:"+str(yV) + "," + "z:"+str(zV) + "," + "norm:"+str(normV) + "," + "roll:"+str(rollV) + "," + "pitch:"+str(pitchV) + "," + "event:"+str(event) + "&apikey=" + apikey
 
-        # sending get request and saving the response as response object 
-        r = requests.get(url = URL) 
+        # sending get request and saving the response as response object
+        r = requests.get(url = URL)
 
     # Wait and update index
     time.sleep(timeInterval)
