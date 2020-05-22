@@ -53,7 +53,8 @@ The script will print the actual state in the terminal. For use this module insi
 * [digital_acquisition.py](digital_acquisition.py): this file contains the code to read the signal converted by arduino and to convert it in a single value;
 * [statemachine.py](statemachine.py): it contains the base class for implementing a state machine;
 * [safetySM.py](safetySM.py): it contains the state machine with the states and the transition rules for our project;
-* [utils.py](utils.py): collection of methods for data analysis and extraction of feature from the raw data.
+* [utils.py](utils.py): collection of methods for data analysis and extraction of feature from the raw data;
+* [ADC_parallel/ADC_parallel.ino](ADC_parallel/ADC_parallel.ino): Arduino code for the conversion of the signal from analog ti digital.
 
 
 The other files are used for tests or for minor function implementations.
